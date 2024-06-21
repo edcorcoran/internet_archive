@@ -8,6 +8,12 @@ def lookup_item(item_id):
     url = base_url + item_id 
     uh = urllib.request.urlopen(url)
     data = uh.read().decode()
+
+    item_title = ''
+    addeddate = ''
+    file_name = ''
+    file_length = 0
+
     try:
         js = json.loads(data)
     except:
@@ -42,7 +48,10 @@ def lookup_item(item_id):
                 file_length = file['length']
                 if 'name' in file: 
                     file_name = file['name']
-                else: file_name = ''
+                else: 
+                    print('==== Missing File Name ====')
+                    print(file)
+                    file_name = ''
     return item_title, addeddate, file_name, file_length
 
 conn = sqlite3.connect('iadb.sqlite')
